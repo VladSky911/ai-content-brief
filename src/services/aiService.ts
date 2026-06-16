@@ -1,5 +1,6 @@
 import type { StreamBriefParams } from "../types/ai";
 import { streamMockBrief } from "./providers/mockProvider";
+import { streamOpenAiCompatibleBrief } from "./providers/openAiCompatibleProvider";
 
 export async function streamAiContentBrief(
   params: StreamBriefParams,
@@ -8,11 +9,11 @@ export async function streamAiContentBrief(
     case "mock":
       return streamMockBrief(params);
 
+    case "openai-compatible":
+      return streamOpenAiCompatibleBrief(params);
+
     case "claude":
       throw new Error("Claude provider is not connected yet.");
-
-    case "openai-compatible":
-      throw new Error("OpenAI-compatible provider is not connected yet.");
 
     default: {
       const exhaustiveCheck: never = params.config.provider;
