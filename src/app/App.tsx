@@ -6,6 +6,7 @@ import { parseContentBrief } from "../lib/parseContentBrief";
 import { streamContentBrief } from "../services/claudeService";
 import { BriefOutput } from "../components/BriefOutput";
 import { StatusBar } from "../components/StatusBar";
+import { BriefSkeleton } from "../components/BriefSkeleton";
 import type { BriefFormValues, ContentBrief } from "../types/brief";
 
 export function App() {
@@ -125,6 +126,8 @@ export function App() {
             <BriefOutput brief={brief} />
           ) : streamedText ? (
             <StreamingText text={streamedText} isStreaming={isLoading} />
+          ) : isLoading ? (
+            <BriefSkeleton />
           ) : (
             <div className="flex min-h-[420px] items-center justify-center text-center text-sm text-slate-400">
               Your generated content brief will appear here.
