@@ -7,6 +7,7 @@ import { streamContentBrief } from "../services/claudeService";
 import { BriefOutput } from "../components/BriefOutput";
 import { StatusBar } from "../components/StatusBar";
 import { BriefSkeleton } from "../components/BriefSkeleton";
+import { ExportButton } from "../components/ExportButton";
 import type { BriefFormValues, ContentBrief } from "../types/brief";
 
 export function App() {
@@ -109,7 +110,12 @@ export function App() {
         </section>
 
         <section className="min-h-[520px] rounded-2xl border border-white/10 bg-white/[0.05] p-6 shadow-2xl shadow-black/20 backdrop-blur-xl">
-          <StatusBar status={status} />
+          <div className="flex items-center gap-3">
+            <div className="flex-1">
+              <StatusBar status={status} />
+            </div>
+            <ExportButton brief={brief} />
+          </div>
           {error ? (
             <div className="rounded-xl border border-red-400/30 bg-red-500/10 p-4 text-sm text-red-100">
               {error}
