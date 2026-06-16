@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BriefForm } from "../components/BriefForm";
 import { TopBar } from "../components/TopBar";
 import { streamContentBrief } from "../services/claudeService";
+import { StreamingText } from "../components/StreamingText";
 import type { BriefFormValues } from "../types/brief";
 
 export function App() {
@@ -74,9 +75,7 @@ export function App() {
           ) : null}
 
           {streamedText ? (
-            <pre className="mt-4 whitespace-pre-wrap break-words text-sm leading-6 text-slate-100">
-              {streamedText}
-            </pre>
+            <StreamingText text={streamedText} isStreaming={isLoading} />
           ) : (
             <div className="flex min-h-[420px] items-center justify-center text-center text-sm text-slate-400">
               Your generated content brief will appear here.
