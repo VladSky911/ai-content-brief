@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { BriefForm } from "../components/BriefForm";
 import { StreamingText } from "../components/StreamingText";
 import { TopBar } from "../components/TopBar";
@@ -24,9 +24,19 @@ export function App() {
   const [error, setError] = useState<string | null>(null);
   const [parseWarning, setParseWarning] = useState<string | null>(null);
 
+  const apiKeyInputRef = useRef<HTMLInputElement | null>(null);
+  const [shouldShakeApiKey, setShouldShakeApiKey] = useState(false);
+
   const handleGenerate = async () => {
     if (!apiKey.trim()) {
       setError("Please enter your Claude API key.");
+      setShouldShakeApiKey(true);
+      apiKeyInputRef.current?.focus();
+
+      window.setTimeout(() => {
+        setShouldShakeApiKey(false);
+      }, 500);
+
       return;
     }
 
@@ -80,7 +90,12 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-purple-950 text-[#e6edf3]">
-      <TopBar apiKey={apiKey} onApiKeyChange={setApiKey} />
+      <TopBar
+        apiKey={apiKey}
+        onApiKeyChange={setApiKey}
+        apiKeyInputRef={apiKeyInputRef}
+        shouldShakeApiKey={shouldShakeApiKey}
+      />
 
       <main className="mx-auto grid max-w-7xl gap-6 px-6 py-8 lg:grid-cols-[420px_1fr]">
         <section className="rounded-2xl border border-white/10 bg-white/[0.05] p-6 shadow-2xl shadow-black/20 backdrop-blur-xl">
