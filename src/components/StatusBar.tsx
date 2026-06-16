@@ -23,7 +23,7 @@ const statusStyles: Record<Status, string> = {
 export function StatusBar({ status }: StatusBarProps) {
   return (
     <div
-      className={`mb-4 flex items-center justify-between rounded-xl border px-4 py-3 text-sm transition duration-200 ${statusStyles[status]}`}
+      className={`flex min-h-[46px] items-center justify-between rounded-xl border px-4 py-3 text-sm transition duration-200 ${statusStyles[status]}`}
     >
       <span>{statusLabels[status]}</span>
 

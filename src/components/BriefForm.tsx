@@ -64,17 +64,29 @@ export function BriefForm({
         <label className="mb-2 block text-sm font-medium text-slate-200">
           Tone
         </label>
-        <select
-          value={values.tone}
-          onChange={(event) => updateField("tone", event.target.value as Tone)}
-          className="w-full rounded-xl border border-white/10 bg-white/[0.05] px-4 py-3 text-sm text-[#e6edf3] outline-none transition duration-200 focus:border-cyan-300/60 focus:shadow-[0_0_24px_rgba(34,211,238,0.22)]"
-        >
-          {toneOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            value={values.tone}
+            onChange={(event) =>
+              updateField("tone", event.target.value as Tone)
+            }
+            className="w-full appearance-none rounded-xl border border-white/10 bg-white/[0.05] px-4 py-3 pr-12 text-sm text-[#e6edf3] outline-none transition duration-200 focus:border-cyan-300/60 focus:shadow-[0_0_24px_rgba(34,211,238,0.22)]"
+          >
+            {toneOptions.map((option) => (
+              <option
+                key={option.value}
+                value={option.value}
+                className="bg-slate-900 text-slate-100"
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+
+          <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-300">
+            ▾
+          </span>
+        </div>
       </div>
 
       <div>
