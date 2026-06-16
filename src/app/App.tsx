@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { BriefForm } from "../components/BriefForm";
-import { TopBar } from "../components/TopBar";
-import { streamContentBrief } from "../services/claudeService";
 import { StreamingText } from "../components/StreamingText";
-import type { BriefFormValues } from "../types/brief";
+import { TopBar } from "../components/TopBar";
+import { parseContentBrief } from "../lib/parseContentBrief";
+import { streamContentBrief } from "../services/claudeService";
+import type { BriefFormValues, ContentBrief } from "../types/brief";
 
 export function App() {
   const [apiKey, setApiKey] = useState("");
@@ -16,8 +17,10 @@ export function App() {
   });
 
   const [streamedText, setStreamedText] = useState("");
+  const [brief, setBrief] = useState<ContentBrief | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [parseWarning, setParseWarning] = useState<string | null>(null);
 
   const handleGenerate = async () => {
     if (!apiKey.trim()) {
@@ -32,16 +35,26 @@ export function App() {
 
     setIsLoading(true);
     setError(null);
+    setParseWarning(null);
     setStreamedText("");
+    setBrief(null);
 
     try {
-      await streamContentBrief({
+      const fullText = await streamContentBrief({
         apiKey,
         values: formValues,
         onText: (text) => {
           setStreamedText((currentText) => currentText + text);
         },
       });
+
+      const parsedBrief = parseContentBrief(fullText);
+
+      if (parsedBrief.ok) {
+        setBrief(parsedBrief.data);
+      } else {
+        setParseWarning(parsedBrief.message);
+      }
     } catch (caughtError) {
       setError(
         caughtError instanceof Error
@@ -71,6 +84,12 @@ export function App() {
           {error ? (
             <div className="rounded-xl border border-red-400/30 bg-red-500/10 p-4 text-sm text-red-100">
               {error}
+            </div>
+          ) : null}
+
+          {parseWarning ? (
+            <div className="mt-4 rounded-xl border border-amber-300/30 bg-amber-400/10 p-4 text-sm text-amber-100">
+              {parseWarning}
             </div>
           ) : null}
 
