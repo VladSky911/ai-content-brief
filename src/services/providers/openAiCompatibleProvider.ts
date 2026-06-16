@@ -41,7 +41,13 @@ export async function streamOpenAiCompatibleBrief({
   });
 
   if (!response.ok) {
-    throw new Error("OpenAI-compatible API request failed.");
+    const errorText = await response.text();
+
+    throw new Error(
+      `OpenAI-compatible API request failed (${response.status} ${response.statusText})${
+        errorText ? `: ${errorText}` : ""
+      }`,
+    );
   }
 
   if (!response.body) {
