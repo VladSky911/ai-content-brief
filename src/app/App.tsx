@@ -4,6 +4,7 @@ import { StreamingText } from "../components/StreamingText";
 import { TopBar } from "../components/TopBar";
 import { parseContentBrief } from "../lib/parseContentBrief";
 import { streamContentBrief } from "../services/claudeService";
+import { BriefOutput } from "../components/BriefOutput";
 import type { BriefFormValues, ContentBrief } from "../types/brief";
 
 export function App() {
@@ -93,7 +94,9 @@ export function App() {
             </div>
           ) : null}
 
-          {streamedText ? (
+          {brief ? (
+            <BriefOutput brief={brief} />
+          ) : streamedText ? (
             <StreamingText text={streamedText} isStreaming={isLoading} />
           ) : (
             <div className="flex min-h-[420px] items-center justify-center text-center text-sm text-slate-400">
